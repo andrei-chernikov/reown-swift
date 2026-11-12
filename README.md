@@ -1,29 +1,41 @@
 ## About this fork
 
-This is an unofficial fork of [Reown Swift](https://github.com/reown-com/reown-swift), maintained to improve macOS compatibility and provide additional customization options.
+This is an unofficial fork of [Reown Swift](https://github.com/reown-com/reown-swift), maintained for macOS compatibility and additional AppKit customization.
 
-### Changes
+### Branches
 
-**macOS compatibility — [upstream PR #342](https://github.com/reown-com/reown-swift/pull/342)**
+| Branch | Contents |
+| --- | --- |
+| [`develop`](https://github.com/andrei-chernikov/reown-swift/tree/develop) | Upstream `develop` code plus these fork notes. The compatibility patches are on the branches below. |
+| [`fix/macos-missing-foundation-import`](https://github.com/andrei-chernikov/reown-swift/tree/fix/macos-missing-foundation-import) | Only the `LinkEnvelopesDispatcher.swift` macOS fix, rebased onto upstream `develop`. Submitted as [PR #342](https://github.com/reown-com/reown-swift/pull/342). |
+| [`macos-2.4.0`](https://github.com/andrei-chernikov/reown-swift/tree/macos-2.4.0) | Upstream 2.4.0 plus the macOS fix and public `ChainPresets.ethChains` customization. |
 
-- Fixes macOS compilation errors in `WalletConnectSign`.
-- Adds the missing `Foundation` import.
-- Guards iOS-only `UIApplication` calls.
-- Allows unsupported Link Mode operations to fail explicitly so callers can fall back to Relay transport.
+### Install the patched fork
 
-**AppKit customization**
+To use both fixes, select `macos-2.4.0` in Xcode or pin its current revision in `Package.swift`:
 
-- Exposes `ChainPresets.ethChains` publicly, allowing applications to customize the available blockchain networks.
+```swift
+.package(
+    url: "https://github.com/andrei-chernikov/reown-swift.git",
+    revision: "24047d270759e2189f994e348d2c563778865bba"
+)
+```
 
-### Compatibility and limitations
+### Compatibility and upstream status
 
-The macOS fix has been tested with the `WalletConnect` Swift package. Native macOS support for the complete ReownAppKit UI is not guaranteed.
+The macOS patch adds the missing `Foundation` import and guards iOS-only `UIApplication` calls in `WalletConnectSign`. Unsupported Link Mode operations return an explicit error; the patch does not add automatic fallback to Relay.
+
+The scope is the `WalletConnect` package product. Native macOS support for the complete ReownAppKit UI is not guaranteed. The separate `ChainPresets` change lets apps customize the available networks.
+
+[PR #342](https://github.com/reown-com/reown-swift/pull/342) is awaiting upstream review. The duplicate [PR #367](https://github.com/reown-com/reown-swift/pull/367) is closed; `macos-2.4.0` remains available for existing consumers.
 
 This fork is experimental and is not officially maintained or endorsed by Reown.
 
-**Upstream status:** The macOS fix has been submitted as PR #342 but has not yet been merged.
+---
 
-**Patch branch:** `fix/macos-missing-foundation-import`
+## Upstream project documentation
+
+The installation URLs below refer to the official upstream package. Use the fork installation above for the patched version.
 
 # Reown WalletKit & AppKit - Swift
 
